@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
-import pprint
+import time
 
 
 def get_overview_data(soup):
@@ -28,44 +28,51 @@ def get_overview_data(soup):
         for data, str in zip(total_data_cards, total_fields)
     ]
 
-    today_data = {key: value for key, value in zip(today_fields, today_data_list)}
+    daily_data = {key: value for key, value in zip(today_fields, today_data_list)}
     total_data = {key: value for key, value in zip(total_fields, total_data_list)}
 
-    return today_data, total_data
+    return daily_data, total_data
 
 
-def get_data_by_district(soup):
-    # get card holding district-wise data
-    district_data_card = soup.find(
-        "div",
-        class_="ant-card",
-    )
-    print(district_data_card)
+def get_data_by_district(driver):
+    cards = driver.find_elements_by_class_name("ant-card-grid")
+
+    # clean up card data and store it in a dict
+    district_data = []
+
+    for card in cards:
+        data = card.text.split("\n")
+        district_data.append(
+            {
+                "District": data[0].replace(" ", "_"),
+                "Total": int(data[1].replace("Total: ", "")),
+                "Male": int(data[2].replace("Male: ", "")),
+                "Female": int(data[3].replace("Female: ", "")),
+            }
+        )
+
+    return district_data
 
 
 def scrape(url):
+    print("Starting webdriver...")
     options = Options()
     options.headless = True
     driver = webdriver.Firefox(options=options)
 
+    print("Requesting data from url...")
     driver.get(url)
-    # print(driver.page_source)
+    # pause for a while to let the async calculator thing load
+    print("Pausing for 30 seconds to allow everything to load...")
+    time.sleep(30)
 
+    print("Parsing data...")
     soup = BeautifulSoup(driver.page_source, "lxml")
-
-    overview_data = get_overview_data(soup)
-    
-    try:
-        district_card = driver.find_element_by_class_name('data-card')
-        print(district_card)
-    except:
-        print('district wise not found')
-
-    driver.quit()
-    return overview_data
+    daily_data, total_data = get_overview_data(soup)
+    district_wise_data = get_data_by_district(driver)
+    return daily_data, total_data, district_wise_data
 
 
 if __name__ == "__main__":
     url = "https://covid19.mohp.gov.np/"
-    data = scrape(url)
-    pprint.pprint(data)
+    scrape(url)

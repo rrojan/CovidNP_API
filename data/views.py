@@ -1,6 +1,6 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render
-from .models import Last24Hours, Total
+from .models import Last24Hours, Total, DistrictWise
 from scraper import scrape
 from datetime import date
 
@@ -15,7 +15,7 @@ def scrape_view(request):
 
     url = "https://covid19.mohp.gov.np/"
 
-    today_data, total_data = scrape(url)
+    today_data, total_data, district_wise_data = scrape(url)
 
     old_objects = Last24Hours.objects.filter(date_updated__startswith=date.today())
     for object in old_objects:
@@ -37,5 +37,17 @@ def scrape_view(request):
         recovered=total_data["Recovered"],
         deaths=total_data["Deaths"],
     )
+
+    old_objects = DistrictWise.objects.filter(date_updated__startswith=date.today())
+    for object in old_objects:
+        object.delete()
+
+    for data in district_wise_data:
+        DistrictWise.objects.create(
+            district=data["District"],
+            total_cases=data["Total"],
+            total_male=data["Male"],
+            total_female=data["Female"],
+        )
 
     return HttpResponse("Successfully scraped that shit")
