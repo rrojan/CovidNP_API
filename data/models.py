@@ -7,7 +7,7 @@ from django.utils import formats
 CATEGORIES = ((1, "Last 24 Hours"), (2, "Total"), (3, "By District"))
 
 
-class Last24Hours(models.Model):
+class Daily(models.Model):
     new_cases = models.IntegerField()
     male_cases_estimated = models.IntegerField(null=True)
     female_cases_estimated = models.IntegerField(null=True)
@@ -17,7 +17,7 @@ class Last24Hours(models.Model):
     category = models.IntegerField(choices=CATEGORIES, default=1)
 
     class Meta:
-        verbose_name_plural = "Last 24 hours"
+        verbose_name_plural = "Dailies"
 
 
 class Total(models.Model):
@@ -39,7 +39,7 @@ def display_str(self):
     )
 
 
-Last24Hours.__str__ = Total.__str__ = display_str
+Daily.__str__ = Total.__str__ = display_str
 
 
 class DistrictWise(models.Model):

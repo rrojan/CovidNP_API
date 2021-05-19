@@ -11,10 +11,10 @@ from .serializers import (
     DistrictWiseMaleSerializer,
     DistrictWiseFemaleSerializer,
 )
-from .models import DistrictWise, Last24Hours, Total
+from .models import DistrictWise, Daily, Total
 
 
-class Last24HoursList(ViewSet):
+class DailyList(ViewSet):
     """
     Get latest details from the last 24 hours
     """
@@ -25,7 +25,7 @@ class Last24HoursList(ViewSet):
     # ]
 
     def list(self, request):
-        cases = Last24Hours.objects.order_by("-date_updated")
+        cases = Daily.objects.order_by("-date_updated")
 
         if "date" in request.GET:
             cases = cases.filter(date_updated__startswith=request.GET.get("date"))

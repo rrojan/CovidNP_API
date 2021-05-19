@@ -1,15 +1,15 @@
 from rest_framework import serializers
 
-from .models import Last24Hours, Total, DistrictWise
+from .models import Daily, Total, DistrictWise
 
 
-class Last24HoursSerializer(serializers.ModelSerializer):
+class DailySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Last24Hours
+        model = Daily
 
 
-class DailySerializer(Last24HoursSerializer):
-    class Meta(Last24HoursSerializer.Meta):
+class DailySerializer(DailySerializer):
+    class Meta(DailySerializer.Meta):
         fields = (
             "new_cases",
             "male_cases_estimated",
@@ -20,13 +20,13 @@ class DailySerializer(Last24HoursSerializer):
         )
 
 
-class DailyMaleSerializer(Last24HoursSerializer):
-    class Meta(Last24HoursSerializer.Meta):
+class DailyMaleSerializer(DailySerializer):
+    class Meta(DailySerializer.Meta):
         fields = ("male_cases_estimated", "date_updated")
 
 
-class DailyFemaleSerializer(Last24HoursSerializer):
-    class Meta(Last24HoursSerializer.Meta):
+class DailyFemaleSerializer(DailySerializer):
+    class Meta(DailySerializer.Meta):
         fields = ("female_cases_estimated", "date_updated")
 
 
