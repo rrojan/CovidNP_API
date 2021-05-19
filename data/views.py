@@ -17,6 +17,29 @@ def scrape_view(request):
 
     today_data, total_data, district_wise_data = scrape(url)
 
+    # The district wise data element in the mohp site is slow to load so sometimes it might not return anything
+
+    # There might still be an earlier scrape in the same day that has already saved them in the db,
+    # so check if the scrape returned any new data before deleting previous rows
+    if district_wise_data:
+        old_objects = Area.objects.filter(date_updated__startswith=date.today())
+        for object in old_objects:
+            object.delete()
+
+    total_male_count = total_female_count = 0
+
+    for data in district_wise_data:
+        Area.objects.create(
+            district=data["District"],
+            total_cases=data["Total"],
+            total_male=data["Male"],
+            total_female=data["Female"],
+        )
+
+        # calculate total male and female count for Total instance
+        total_male_count += data["Male"]
+        total_female_count += data["Female"]
+
     old_objects = Daily.objects.filter(date_updated__startswith=date.today())
     for object in old_objects:
         object.delete()
@@ -36,23 +59,8 @@ def scrape_view(request):
         total_infected=total_data["Total Infected"],
         recovered=total_data["Recovered"],
         deaths=total_data["Deaths"],
+        total_male_estimated=total_male_count,
+        total_female_estimated=total_female_count,
     )
-
-    # The district wise data element in the mohp site is slow to load so sometimes it might not return anything
-    
-    # There might still be an earlier scrape in the same day that has already saved them in the db,
-    # so check if the scrape returned any new data before deleting previous rows
-    if district_wise_data:
-        old_objects = Area.objects.filter(date_updated__startswith=date.today())
-        for object in old_objects:
-            object.delete()
-
-    for data in district_wise_data:
-        Area.objects.create(
-            district=data["District"],
-            total_cases=data["Total"],
-            total_male=data["Male"],
-            total_female=data["Female"],
-        )
 
     return HttpResponse("Successfully scraped that shit")

@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import formats
 
 
-CATEGORIES = ((1, "Last 24 Hours"), (2, "Total"), (3, "By District"))
+CATEGORIES = ((1, "Daily"), (2, "Total"), (3, "By District"))
 
 
 class Daily(models.Model):
@@ -34,7 +34,7 @@ class Total(models.Model):
 def display_str(self):
     return (
         f"{self.get_category_display()} ["
-        + formats.localize_input(self.date_updated)
+        + str(self.date_updated.date())
         + "]"
     )
 

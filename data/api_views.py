@@ -14,6 +14,8 @@ from .serializers import (
 from .models import Area, Daily, Total
 from . import nepal_data
 
+# TODO: use drf filter lib instead of manually filtering url queries
+
 
 class DailyList(ViewSet):
     """
@@ -47,6 +49,11 @@ class TotalList(ViewSet):
     """
     Get total details since January 2020
     """
+
+    # QUERY_FIELDS = [
+    #     "date",
+    #     "gender",
+    # ]
 
     def list(self, request):
         cases = Total.objects.order_by("-date_updated")
