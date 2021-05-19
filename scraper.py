@@ -67,9 +67,11 @@ def scrape(url):
     time.sleep(30)
 
     print("Parsing data...")
+
     soup = BeautifulSoup(driver.page_source, "lxml")
     daily_data, total_data = get_overview_data(soup)
     district_wise_data = get_data_by_district(driver)
+    
     return daily_data, total_data, district_wise_data
 
 

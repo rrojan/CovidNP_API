@@ -1,3 +1,5 @@
+from datetime import date
+import time
 from django.db import models
 from django.utils import formats
 
@@ -7,6 +9,8 @@ CATEGORIES = ((1, "Last 24 Hours"), (2, "Total"), (3, "By District"))
 
 class Last24Hours(models.Model):
     new_cases = models.IntegerField()
+    male_cases_estimated = models.IntegerField(null=True)
+    female_cases_estimated = models.IntegerField(null=True)
     recovered = models.IntegerField()
     deaths = models.IntegerField()
     date_updated = models.DateTimeField(auto_now_add=True)
@@ -19,6 +23,8 @@ class Last24Hours(models.Model):
 class Total(models.Model):
     total_cases = models.IntegerField()
     total_infected = models.IntegerField()
+    total_male_estimated = models.IntegerField(null=True)
+    total_female_estimated = models.IntegerField(null=True)
     recovered = models.IntegerField()
     deaths = models.IntegerField()
     date_updated = models.DateTimeField(auto_now_add=True)
@@ -28,7 +34,7 @@ class Total(models.Model):
 def display_str(self):
     return (
         f"{self.get_category_display()} ["
-        + formats.date_format(self.date_updated, "SHORT_DATETIME_FORMAT")
+        + formats.localize_input(self.date_updated)
         + "]"
     )
 
@@ -41,15 +47,15 @@ class DistrictWise(models.Model):
     total_cases = models.IntegerField()
     total_male = models.IntegerField()
     total_female = models.IntegerField()
-    daily_cases_estimated = models.IntegerField(blank=True, null=True)
-    daily_male_estimated = models.IntegerField(blank=True, null=True)
-    daily_female_estimated = models.IntegerField(blank=True, null=True)
-    date_updated = models.DateTimeField(auto_now_add=True)
+    daily_cases_estimated = models.IntegerField(null=True)
+    daily_male_estimated = models.IntegerField(null=True)
+    daily_female_estimated = models.IntegerField(null=True)
+    date_updated = models.DateField(auto_now_add=True, null=True)
     category = models.IntegerField(choices=CATEGORIES, default=3)
 
-    def __str__(self) -> str:
+    def __str__(self):
         return (
             f"{self.district} ["
-            + formats.date_format(self.date_updated, "SHORT_DATETIME_FORMAT")
+            + formats.localize_input(self.date_updated)
             + "]"
         )
