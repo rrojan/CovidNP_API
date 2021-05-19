@@ -38,9 +38,14 @@ def scrape_view(request):
         deaths=total_data["Deaths"],
     )
 
-    old_objects = Area.objects.filter(date_updated__startswith=date.today())
-    for object in old_objects:
-        object.delete()
+    # The district wise data element in the mohp site is slow to load so sometimes it might not return anything
+    
+    # There might still be an earlier scrape in the same day that has already saved them in the db,
+    # so check if the scrape returned any new data before deleting previous rows
+    if district_wise_data:
+        old_objects = Area.objects.filter(date_updated__startswith=date.today())
+        for object in old_objects:
+            object.delete()
 
     for data in district_wise_data:
         Area.objects.create(

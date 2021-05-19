@@ -12,6 +12,7 @@ from .serializers import (
     AreaFemaleSerializer,
 )
 from .models import Area, Daily, Total
+from . import nepal_data
 
 
 class DailyList(ViewSet):
@@ -28,8 +29,7 @@ class DailyList(ViewSet):
         cases = Daily.objects.order_by("-date_updated")
 
         if "date" in request.GET:
-            cases = cases.filter(
-                date_updated__startswith=request.GET.get("date"))
+            cases = cases.filter(date_updated__startswith=request.GET.get("date"))
 
         if "gender" in request.GET:
             serializer = (
@@ -52,8 +52,7 @@ class TotalList(ViewSet):
         cases = Total.objects.order_by("-date_updated")
 
         if "date" in request.GET:
-            cases = cases.filter(
-                date_updated__startswith=request.GET.get("date"))
+            cases = cases.filter(date_updated__startswith=request.GET.get("date"))
 
         if "gender" in request.GET:
             serializer = (
@@ -79,17 +78,26 @@ class AreaList(ViewSet):
     Get detailed counts district-wise
     """
 
+    def get_province_cases(self, province):
+        province = province.lower()
+        if province in nepal_data.PROVINCES.keys():
+            province_cases = list()
+            for district in nepal_data.PROVINCES[province]:
+                district_cases = list(Area.objects.filter(district=district))
+                province_cases += district_cases
+            return province_cases
+
     def list(self, request):
         cases = Area.objects.order_by("-date_updated")
 
         if "date" in request.GET:
-            cases = cases.filter(
-                date_updated__startswith=request.GET.get("date"))
+            cases = cases.filter(date_updated__startswith=request.GET.get("date"))
 
         if "district" in request.GET:
-            print(request.GET.get("district").upper())
             cases = cases.filter(district=request.GET.get("district").upper())
-            print(cases)
+
+        if "province" in request.GET:
+            cases = self.get_province_cases(request.GET.get("province"))
 
         if "gender" in request.GET:
             serializer = (
