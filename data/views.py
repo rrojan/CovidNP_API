@@ -1,6 +1,6 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render
-from .models import Daily, Total, DistrictWise
+from .models import Daily, Total, Area
 from scraper import scrape
 from datetime import date
 
@@ -8,7 +8,7 @@ from datetime import date
 def scrape_view(request):
     """
     Scrape but store only one database entry per day.
-    
+
     If multiple scrapings are done in one day, remove all previous db entries for the day
     before creating the new object
     """
@@ -38,12 +38,12 @@ def scrape_view(request):
         deaths=total_data["Deaths"],
     )
 
-    old_objects = DistrictWise.objects.filter(date_updated__startswith=date.today())
+    old_objects = Area.objects.filter(date_updated__startswith=date.today())
     for object in old_objects:
         object.delete()
 
     for data in district_wise_data:
-        DistrictWise.objects.create(
+        Area.objects.create(
             district=data["District"],
             total_cases=data["Total"],
             total_male=data["Male"],

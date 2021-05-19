@@ -7,11 +7,11 @@ from .serializers import (
     TotalSerializer,
     TotalMaleSerializer,
     TotalFemaleSerializer,
-    DistrictWiseSerializer,
-    DistrictWiseMaleSerializer,
-    DistrictWiseFemaleSerializer,
+    AreaSerializer,
+    AreaMaleSerializer,
+    AreaFemaleSerializer,
 )
-from .models import DistrictWise, Daily, Total
+from .models import Area, Daily, Total
 
 
 class DailyList(ViewSet):
@@ -28,7 +28,8 @@ class DailyList(ViewSet):
         cases = Daily.objects.order_by("-date_updated")
 
         if "date" in request.GET:
-            cases = cases.filter(date_updated__startswith=request.GET.get("date"))
+            cases = cases.filter(
+                date_updated__startswith=request.GET.get("date"))
 
         if "gender" in request.GET:
             serializer = (
@@ -51,7 +52,8 @@ class TotalList(ViewSet):
         cases = Total.objects.order_by("-date_updated")
 
         if "date" in request.GET:
-            cases = cases.filter(date_updated__startswith=request.GET.get("date"))
+            cases = cases.filter(
+                date_updated__startswith=request.GET.get("date"))
 
         if "gender" in request.GET:
             serializer = (
@@ -65,7 +67,7 @@ class TotalList(ViewSet):
         return Response(serializer.data)
 
 
-class DistrictWiseList(ViewSet):
+class AreaList(ViewSet):
     # QUERY_FIELDS = [
     #     "province",
     #     "district",
@@ -78,10 +80,11 @@ class DistrictWiseList(ViewSet):
     """
 
     def list(self, request):
-        cases = DistrictWise.objects.order_by("-date_updated")
+        cases = Area.objects.order_by("-date_updated")
 
         if "date" in request.GET:
-            cases = cases.filter(date_updated__startswith=request.GET.get("date"))
+            cases = cases.filter(
+                date_updated__startswith=request.GET.get("date"))
 
         if "district" in request.GET:
             print(request.GET.get("district").upper())
@@ -90,11 +93,11 @@ class DistrictWiseList(ViewSet):
 
         if "gender" in request.GET:
             serializer = (
-                DistrictWiseMaleSerializer(cases, many=True)
+                AreaMaleSerializer(cases, many=True)
                 if request.GET.get("gender") == "male"
-                else DistrictWiseFemaleSerializer(cases, many=True)
+                else AreaFemaleSerializer(cases, many=True)
             )
         else:
-            serializer = DistrictWiseSerializer(cases, many=True)
+            serializer = AreaSerializer(cases, many=True)
 
         return Response(serializer.data)

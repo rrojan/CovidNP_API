@@ -55,6 +55,7 @@ def get_data_by_district(driver):
 
 
 def scrape(url):
+
     print("Starting webdriver...")
     options = Options()
     options.headless = True
@@ -62,16 +63,18 @@ def scrape(url):
 
     print("Requesting data from url...")
     driver.get(url)
+
     # pause for a while to let the async calculator thing load
-    print("Pausing for 30 seconds to allow everything to load...")
-    time.sleep(30)
+    TIME_SLEEP = 120
+    print(f"Pausing for {TIME_SLEEP} seconds to allow everything to load...")
+    time.sleep(TIME_SLEEP)
 
     print("Parsing data...")
 
     soup = BeautifulSoup(driver.page_source, "lxml")
     daily_data, total_data = get_overview_data(soup)
     district_wise_data = get_data_by_district(driver)
-    
+
     return daily_data, total_data, district_wise_data
 
 

@@ -42,7 +42,7 @@ def display_str(self):
 Daily.__str__ = Total.__str__ = display_str
 
 
-class DistrictWise(models.Model):
+class Area(models.Model):
     district = models.CharField(max_length=20)
     total_cases = models.IntegerField()
     total_male = models.IntegerField()

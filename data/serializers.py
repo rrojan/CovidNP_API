@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Daily, Total, DistrictWise
+from .models import Daily, Total, Area
 
 
 class DailySerializer(serializers.ModelSerializer):
@@ -64,12 +64,13 @@ class TotalFemaleSerializer(TotalBaseSerializer):
         )
 
 
-class DistrictWiseBaseSerializer(serializers.ModelSerializer):
+class AreaBaseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = DistrictWise
+        model = Area
 
-class DistrictWiseSerializer(DistrictWiseBaseSerializer):
-    class Meta(DistrictWiseBaseSerializer.Meta):
+
+class AreaSerializer(AreaBaseSerializer):
+    class Meta(AreaBaseSerializer.Meta):
         fields = (
             "district",
             "total_cases",
@@ -81,15 +82,17 @@ class DistrictWiseSerializer(DistrictWiseBaseSerializer):
             "date_updated",
         )
 
-class DistrictWiseMaleSerializer(DistrictWiseBaseSerializer):
-    class Meta(DistrictWiseBaseSerializer.Meta):
+
+class AreaMaleSerializer(AreaBaseSerializer):
+    class Meta(AreaBaseSerializer.Meta):
         fields = (
             "total_male",
             "daily_male_estimated",
         )
 
-class DistrictWiseFemaleSerializer(DistrictWiseBaseSerializer):
-    class Meta(DistrictWiseBaseSerializer.Meta):
+
+class AreaFemaleSerializer(AreaBaseSerializer):
+    class Meta(AreaBaseSerializer.Meta):
         fields = (
             "total_female",
             "daily_female_estimated",
