@@ -50,18 +50,12 @@ class TotalSerializer(TotalBaseSerializer):
 
 class TotalMaleSerializer(TotalBaseSerializer):
     class Meta(TotalBaseSerializer.Meta):
-        fields = (
-            "total_male_estimated",
-            "date_updated",
-        )
+        fields = ("total_male_estimated", "date_updated")
 
 
 class TotalFemaleSerializer(TotalBaseSerializer):
     class Meta(TotalBaseSerializer.Meta):
-        fields = (
-            "total_female_estimated",
-            "date_updated",
-        )
+        fields = ("total_female_estimated", "date_updated")
 
 
 class AreaBaseSerializer(serializers.ModelSerializer):
@@ -85,15 +79,9 @@ class AreaSerializer(AreaBaseSerializer):
 
 class AreaMaleSerializer(AreaBaseSerializer):
     class Meta(AreaBaseSerializer.Meta):
-        fields = (
-            "total_male",
-            "daily_male_estimated",
-        )
+        fields = ("total_male", "daily_male_estimated", "date_updated")
 
 
 class AreaFemaleSerializer(AreaBaseSerializer):
     class Meta(AreaBaseSerializer.Meta):
-        fields = (
-            "total_female",
-            "daily_female_estimated",
-        )
+        fields = ("total_female", "daily_female_estimated", "date_updated")

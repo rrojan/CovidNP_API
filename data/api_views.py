@@ -1,5 +1,8 @@
+from django.db.models.query import QuerySet
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
+# from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from .serializers import (
     DailySerializer,
     DailyMaleSerializer,
@@ -27,11 +30,14 @@ class DailyList(ViewSet):
     #     "gender",
     # ]
 
+    permission_classes = [IsAuthenticated]
+
     def list(self, request):
         cases = Daily.objects.order_by("-date_updated")
 
         if "date" in request.GET:
-            cases = cases.filter(date_updated__startswith=request.GET.get("date"))
+            cases = cases.filter(
+                date_updated__startswith=request.GET.get("date"))
 
         if "gender" in request.GET:
             serializer = (
@@ -55,11 +61,14 @@ class TotalList(ViewSet):
     #     "gender",
     # ]
 
+    permission_classes = [IsAuthenticated]
+
     def list(self, request):
         cases = Total.objects.order_by("-date_updated")
 
         if "date" in request.GET:
-            cases = cases.filter(date_updated__startswith=request.GET.get("date"))
+            cases = cases.filter(
+                date_updated__startswith=request.GET.get("date"))
 
         if "gender" in request.GET:
             serializer = (
@@ -85,12 +94,14 @@ class AreaList(ViewSet):
     Get detailed counts district-wise
     """
 
-    def get_province_cases(self, province):
+    permission_classes = [IsAuthenticated]
+
+    def get_province_cases(self, cases, province):
         province = province.lower()
         if province in nepal_data.PROVINCES.keys():
             province_cases = list()
             for district in nepal_data.PROVINCES[province]:
-                district_cases = list(Area.objects.filter(district=district))
+                district_cases = cases.filter(district=district)
                 province_cases += district_cases
             return province_cases
 
@@ -98,13 +109,14 @@ class AreaList(ViewSet):
         cases = Area.objects.order_by("-date_updated")
 
         if "date" in request.GET:
-            cases = cases.filter(date_updated__startswith=request.GET.get("date"))
+            cases = cases.filter(
+                date_updated__startswith=request.GET.get("date"))
 
         if "district" in request.GET:
             cases = cases.filter(district=request.GET.get("district").upper())
 
         if "province" in request.GET:
-            cases = self.get_province_cases(request.GET.get("province"))
+            cases = self.get_province_cases(cases, request.GET.get("province"))
 
         if "gender" in request.GET:
             serializer = (

@@ -50,12 +50,12 @@ class Area(models.Model):
     daily_cases_estimated = models.IntegerField(null=True)
     daily_male_estimated = models.IntegerField(null=True)
     daily_female_estimated = models.IntegerField(null=True)
-    date_updated = models.DateField(auto_now_add=True, null=True)
+    date_updated = models.DateTimeField(auto_now_add=True, null=True)
     category = models.IntegerField(choices=CATEGORIES, default=3)
 
     def __str__(self):
         return (
             f"{self.district} ["
-            + formats.localize_input(self.date_updated)
+            + str(self.date_updated.date())
             + "]"
         )
