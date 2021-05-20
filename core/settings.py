@@ -43,8 +43,6 @@ INSTALLED_APPS = [
     "pages",
     # 3rd party
     "rest_framework",
-    "drf_yasg",
-    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -134,11 +132,3 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
-# auth scheme
-# REST_FRAMEWORK = {
-#     "DEFAULT_AUTHENTICATION_CLASSES": [
-#         "rest_framework.authentication.BasicAuthentication",
-#         "rest_framework.authentication.SessionAuthentication",
-#     ]
-# }
