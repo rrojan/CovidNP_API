@@ -1,6 +1,7 @@
 from django.db.models.query import QuerySet
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
+
 # from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .serializers import (
@@ -16,8 +17,6 @@ from .serializers import (
 )
 from .models import Area, Daily, Total
 from . import nepal_data
-
-# TODO: use drf filter lib instead of manually filtering url queries
 
 
 class DailyList(ViewSet):
@@ -36,8 +35,7 @@ class DailyList(ViewSet):
         cases = Daily.objects.order_by("-date_updated")
 
         if "date" in request.GET:
-            cases = cases.filter(
-                date_updated__startswith=request.GET.get("date"))
+            cases = cases.filter(date_updated__startswith=request.GET.get("date"))
 
         if "gender" in request.GET:
             serializer = (
@@ -67,8 +65,7 @@ class TotalList(ViewSet):
         cases = Total.objects.order_by("-date_updated")
 
         if "date" in request.GET:
-            cases = cases.filter(
-                date_updated__startswith=request.GET.get("date"))
+            cases = cases.filter(date_updated__startswith=request.GET.get("date"))
 
         if "gender" in request.GET:
             serializer = (
@@ -109,8 +106,7 @@ class AreaList(ViewSet):
         cases = Area.objects.order_by("-date_updated")
 
         if "date" in request.GET:
-            cases = cases.filter(
-                date_updated__startswith=request.GET.get("date"))
+            cases = cases.filter(date_updated__startswith=request.GET.get("date"))
 
         if "district" in request.GET:
             cases = cases.filter(district=request.GET.get("district").upper())
@@ -128,3 +124,7 @@ class AreaList(ViewSet):
             serializer = AreaSerializer(cases, many=True)
 
         return Response(serializer.data)
+
+
+# TODO: use drf filter lib instead of manually filtering url queries
+# TODO: caching
