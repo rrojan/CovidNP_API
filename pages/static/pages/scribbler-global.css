@@ -1,19 +1,21 @@
 /* css variables*/
+
 :root {
   --primary-color: #432E30;
   --primary-color-light: #8E7474;
-  --accent-color: #FE6A6B;
+  --accent-color: #e44d4d;
   --accent-color-light: #FFE4E4;
   --accent-color-dark: #B94B4C;
   --white-color: #FAFBFC;
   --light-gray-color: #C6CBD1;
   --medium-gray-color: #959DA5;
-  --dark-gray-color: #444D56; 
+  --dark-gray-color: #444D56;
   --bg-color: #F8F8FA;
   --code-bg-color: #F0E8E8;
 }
 
 /* normalized */
+
 html, body {
   padding: 0;
   margin: 0;
@@ -44,16 +46,18 @@ hr {
 /* global components */
 
 /* typography */
+
 .section__title {
   color: var(--primary-color);
 }
 
 /* tabs */
+
 .tab__container {
   position: relative;
 }
 
-.tab__container > ul {
+.tab__container>ul {
   position: absolute;
   list-style: none;
   margin: 0;
@@ -89,9 +93,10 @@ hr {
 }
 
 /* code */
+
 .code {
   border-radius: 3px;
-  font-family: Space Mono, SFMono-Regular, Menlo,Monaco, Consolas, Liberation Mono, Courier New, monospace;
+  font-family: Space Mono, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
   background: var(--bg-color);
   border: 1px solid var(--code-bg-color);
   color: var(--primary-color-light);
@@ -108,6 +113,7 @@ hr {
 }
 
 /* buttons */
+
 .button--primary {
   padding: 10px 22px;
   background-color: var(--accent-color);
@@ -151,6 +157,7 @@ hr {
 }
 
 /* links */
+
 .link {
   text-decoration: none;
   transition: all 0.3s ease-out;
@@ -169,6 +176,7 @@ hr {
 }
 
 /* menu */
+
 nav {
   display: grid;
   grid-template-columns: 70px auto;
@@ -186,9 +194,7 @@ nav {
   position: relative;
 }
 
-.toggle span,
-.toggle span:before,
-.toggle span:after {
+.toggle span, .toggle span:before, .toggle span:after {
   content: '';
   position: absolute;
   height: 2px;
@@ -209,12 +215,11 @@ nav {
   bottom: -6px;
 }
 
-.toggle.open span{
+.toggle.open span {
   background-color: transparent;
 }
 
-.toggle.open span:before,
-.toggle.open span:after {
+.toggle.open span:before, .toggle.open span:after {
   top: 0;
 }
 
@@ -236,6 +241,7 @@ nav {
 }
 
 /* table */
+
 table {
   border-collapse: collapse;
   width: 100%;
@@ -265,24 +271,19 @@ table td:first-child {
   nav {
     grid-template-columns: 70px auto;
   }
-
-  .menu__item{
+  .menu__item {
     display: none;
   }
-
   .menu__item.toggle {
     display: inline-block;
   }
-
   .menu {
     text-align: right;
     padding: 0.5rem 1rem;
   }
-
   .toggle {
     display: block;
   }
-
   .menu.responsive .menu__item:not(:first-child) {
     display: block;
     padding: 0 0 0.5rem 0;
@@ -290,6 +291,7 @@ table td:first-child {
 }
 
 /* layout */
+
 .wrapper {
   margin: 0 auto;
   width: 70%;
@@ -305,9 +307,9 @@ table td:first-child {
 @keyframes fadeUp {
   0% {
     opacity: 0;
-    transform: translate3d(0,30px,0);
+    transform: translate3d(0, 30px, 0);
   }
   100% {
-    transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
   }
 }
