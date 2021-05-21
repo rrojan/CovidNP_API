@@ -5,6 +5,7 @@ black==21.5b1
 bs4==0.0.1
 click==8.0.1
 Django==3.2.3
+django-crispy-forms==1.11.2
 djangorestframework==3.12.4
 lxml==4.6.3
 mypy-extensions==0.4.3
