@@ -3,13 +3,16 @@
 
 {% block title %}COVID-19 Nepal API{% endblock %}
 
+{% load crispy_forms_tags %}
+
 {% block css %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css'>
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/railscasts.min.css">
 <link rel="stylesheet" href="{% static 'pages/scribbler-global.css' %}">
 <link rel="stylesheet" href="{% static 'pages/scribbler-landing.css' %}">
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css'>
 <link rel="author" href="humans.txt">
 <style>
     :root {
@@ -19,40 +22,6 @@
     }
 
     @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
-
-    button {
-        position: relative;
-        display: inline-block;
-        cursor: pointer;
-        outline: none;
-        border: 0;
-        margin-top: 15px;
-        vertical-align: middle;
-        text-decoration: none;
-        font-size: 1rem;
-        color: var(--colorShadeA);
-        font-weight: 700;
-        text-transform: uppercase;
-        font-family: inherit;
-    }
-
-    button.big-button {
-        padding: 0.7em 1.4em;
-        border: 2px solid var(--colorShadeA);
-        border-radius: 1em;
-        background: var(--colorShadeE);
-        transform-style: preserve-3d;
-        transition: all 175ms cubic-bezier(0, 0, 1, 1);
-    }
-
-    button.big-button:hover {
-        background: var(--colorShadeD);
-        transform: translate(0, 0.375em);
-    }
-
-    button.big-button:active {
-        transform: translate(0em, 0.5em);
-    }
 
     .container {
         padding: 2rem 0rem;
@@ -91,6 +60,40 @@
     .signup-section {
         padding: 0.3rem 0rem;
     }
+
+    button {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        outline: none;
+        border: 0;
+        margin-top: 15px;
+        vertical-align: middle;
+        text-decoration: none;
+        font-size: 1rem;
+        color: var(--colorShadeA);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-family: inherit;
+    }
+
+    button.big-button {
+        padding: 0.2em 1.4em;
+        border: 2px solid var(--colorShadeA);
+        border-radius: 1em;
+        background: var(--colorShadeE);
+        transform-style: preserve-3d;
+        transition: all 175ms cubic-bezier(0, 0, 1, 1);
+    }
+
+    button.big-button:hover {
+        background: var(--colorShadeD);
+        transform: translate(0, 0.375em);
+    }
+
+    button.big-button:active {
+        transform: translate(0em, 0.5em);
+    }
 </style>
 {% endblock %}
 
@@ -102,57 +105,68 @@
         <div class="menu__item toggle"><span></span></div>
         <li class="menu__item"><a href="{% url 'docs' %}" class="link link--dark"><i class="fa fa-book"></i>
                 Documentation</a></li>
-        <li class="menu__item"><a href="" class="link link--dark"><i class="fa fa-github"></i> Github</a></li>
+        <li class="menu__item"><a href="" class="link link--dark"><i class="fab fa-github"></i> Github</a></li>
+        {% if user.is_authenticated %}
+        <li class="menu__item"><a href="{% url 'my_api' %}" class="link link--dark"><i class="fas fa-code"></i> MyAPI</a></li>
+        {% else %}
+        <li class="menu__item"><a href="" class="link link--dark"  data-toggle="modal" data-target="#loginModal" id='login'><i class="fas fa-rocket"></i> Get Started</a></li>
+        {% endif %}
     </ul>
 </nav>
 <div class="hero">
-    <h1 class="hero__title">COVID Nepal API</h1>
-    <p class="hero__description">Get the latest statistics on Nepal's COVID-19 outbreak for all your development needs
+    <h1 class="hero__title my-4">COVID Nepal API</h1>
+    <p class="hero__description">Get the latest statistics on the COVID-19 outbreak in Nepal for all your development
+        needs
     </p>
 </div>
 <div class="hero__terminal">
     <pre>
     <!-- Place your demo code here -->
-    <code class="shell-session demo">covid-API ~ $ </code>
+    <code class="shell-session demo">covidNP ~ $ </code>
   </pre>
 </div>
 <div class="wrapper">
     <div class="feature">
-        <div class="feature__item">
-            <h3 class="section__title">Fast & Accessible</h3>
+        <div class="feature__item my-2">
+            <h3 class="section__title">Fast & Reliable</h3>
             <p>Get the latest statistics on Nepal's COVID-19 pandemic at a single call.</p>
         </div>
-        <div class="feature__item">
+        <div class="feature__item my-2">
             <h3 class="section__title">Flexible</h3>
-            <p>Query specific data by combining powerful filters like date, gender, province, district, etc.</p>
+            <p>Query specific data combining powerful filters like date, gender, province, district, etc.</p>
         </div>
-        <div class="feature__item">
-            <h3 class="section__title">Easy to get started</h3>
-            <p>Just generate your key and go! Intregrate into your own apps, websites, data science projects or ML
+        <div class="feature__item my-2">
+            <h3 class="section__title">Extensible</h3>
+            <p>Intregrate into your own apps, websites, data projects or ML
                 models. Look around with a web browser, or use your favorite API tools like
                 Postman or Swagger.</p>
         </div>
-        <div class="feature__item">
-            <h3 class="section__title">Accurate & Reliable</h3>
+        <div class="feature__item my-2">
+            <h3 class="section__title">Accessible</h3>
+            <p>Get your required data in neat <span class="code code--inline">.json</span> format for better ease of
+                use.</p>
+        </div>
+
+        <div class="feature__item my-2">
+            <h3 class="section__title">Accurate & Trustable</h3>
             <p>Get data updated from trusted sources multiple times a day.</p>
         </div>
-        <!-- <div class="feature__item">
-            <h3 class="section__title">Highlightings</h3>
-            <p>For better readability, scribbler has a clean, beautiful color scheme allow you to scan files fast.
-            </p>
+
+        <div class="feature__item my-2">
+            <h3 class="section__title">Easy to get started</h3>
+            <p>Just generate your key and go! </p>
         </div>
-        <div class="feature__item">
-            <h3 class="section__title">Keybindings</h3>
-            <p>You can expect common keybindings for scribbler. Customize <span
-                    class="code code--inline">bindings.json</span> for your own liking! </p>
-        </div> -->
     </div>
     <div class="keybinding">
         <ul class="keybinding__detail">
             <h2 class="keybinding__title" style="margin: 0px 20px;">Get started!</h3>
                 <li>Create an account today to start using Covid Nepal API</li>
+                {% if not user.is_authenticated %}
                 <button class="big-button" data-toggle="modal" data-target="#loginModal" id='login'>Login</button>&nbsp;
-                <button class="big-button">Signup</button>
+                <button class="big-button" data-toggle="modal" data-target="#signupModal" id='signup'>Signup</button>
+                {% else %}
+                <a href="{% url 'my_api' %}"><button class="big-button" id='my-api-btn'>My API</button>&nbsp;</a>
+                {% endif %}
         </ul>
         <span style="margin: 10px 30px;">OR</span>
         <ul class="keybinding__detail">
@@ -231,14 +245,29 @@
                     <h4>Login</h4>
                 </div>
                 <div class="d-flex flex-column text-center">
-                    <form>
+                    
+                    {% if messages %}
+                    <script>
+                        document.addEventListener('DOMContentLoaded', _ => {
+                            $("#loginModal").modal()
+                        });
+                    </script>
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                    {% endif %}
+
+                    <form action="{% url 'login' %}" method="post">
+                        {% csrf_token %}
                         <div class="form-group">
-                            <input type="email" class="form-control" id="email1" placeholder="Your email address...">
+                            <input type="email" class="form-control" id="email1" name='email'
+                                placeholder="Your email address...">
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" id="password1" placeholder="Your password...">
+                            <input type="password" class="form-control" id="password1" name='password'
+                                placeholder="Your password...">
                         </div>
-                        <button type="button" class="btn btn-info btn-block btn-round">Login</button>
+                        <button type="submit" class="btn btn-outline-success">Login</button>
                     </form>
 
                     <div class="text-center text-muted delimiter">or use a social network</div>
@@ -260,8 +289,37 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <div class="signup-section">Not a member yet? <a href="#a" class="text-info"> Sign Up</a>.</div>
+                <div class="signup-section">Not a member yet? <a href="#" class="text-info" id='sign-up-toggle'> Sign Up</a>.</div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Signup modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-title text-center">
+                    <h4>Signup</h4>
+                </div>
+                <div class="d-flex flex-column text-center">
+                    <form action="{% url 'signup' %}" method="post">
+                        {% csrf_token %}
+                        {{ signup_form|crispy }}
+                        <button type="submit" class="btn btn-outline-success">Signup</button>
+                    </form>
+                </div>
+            </div>
+            <!-- <div class="modal-footer d-flex justify-content-center">
+                <div class="signup-section">Not a member yet? <a href="#a" class="text-info"> Sign Up</a>.</div>
+            </div> -->
         </div>
     </div>
 </div>
@@ -276,11 +334,9 @@
 <!-- Bootstrap JS -->
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'></script>
 <script>
-    $(login).click(function () {
-        $('#loginModal').modal('show');
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
+    document.querySelector('#sign-up-toggle').addEventListener('click', _ => {
+        $("#loginModal").modal('hide');
+        $("#signupModal").modal()
     });
 </script>
 {% endblock %}
