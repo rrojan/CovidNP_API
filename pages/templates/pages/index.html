@@ -107,9 +107,11 @@
                 Documentation</a></li>
         <li class="menu__item"><a href="" class="link link--dark"><i class="fab fa-github"></i> Github</a></li>
         {% if user.is_authenticated %}
-        <li class="menu__item"><a href="{% url 'my_api' %}" class="link link--dark"><i class="fas fa-code"></i> MyAPI</a></li>
+        <li class="menu__item"><a href="{% url 'my_api' %}" class="link link--dark"><i class="fas fa-code"></i>
+                MyAPI</a></li>
         {% else %}
-        <li class="menu__item"><a href="" class="link link--dark"  data-toggle="modal" data-target="#loginModal" id='login'><i class="fas fa-rocket"></i> Get Started</a></li>
+        <li class="menu__item"><a href="" class="link link--dark" data-toggle="modal" data-target="#loginModal"
+                id='login'><i class="fas fa-rocket"></i> Get Started</a></li>
         {% endif %}
     </ul>
 </nav>
@@ -160,8 +162,8 @@
     <div class="keybinding">
         <ul class="keybinding__detail">
             <h2 class="keybinding__title" style="margin: 0px 20px;">Get started!</h3>
-                <li>Create an account today to start using Covid Nepal API</li>
                 {% if not user.is_authenticated %}
+                <li>Create an account today to start using Covid Nepal API</li>
                 <button class="big-button" data-toggle="modal" data-target="#loginModal" id='login'>Login</button>&nbsp;
                 <button class="big-button" data-toggle="modal" data-target="#signupModal" id='signup'>Signup</button>
                 {% else %}
@@ -170,7 +172,7 @@
         </ul>
         <span style="margin: 10px 30px;">OR</span>
         <ul class="keybinding__detail">
-            <h2 class="keybinding__title" style="margin: 0px 20px;">Read the documentation</h3>
+            <h2 class="keybinding__title" style="margin: 0px 20px;">Read the docs</h3>
                 <li>-- Introduction</li>
                 <li>-- Getting Started</li>
                 <li>-- API Routes, Endpoints and Filters</li>
@@ -188,49 +190,23 @@
         <h3 class="section__title">Changelog</h3>
         <div class="changelog__item">
             <div class="changelog__meta">
-                <h4 class="changelog__title">v0.7</h4>
-                <small class="changelog__date">10/12/2017</small>
+                <h4 class="changelog__title">v0.1</h4>
+                <small class="changelog__date">22/05/2021</small>
             </div>
             <div class="changelog__detail">
                 <ul>
-                    <li>Improving the writing workflow with better key bindings</li>
-                    <li>Design updates</li>
-                    <li>SSL Verification for web hooks</li>
-                    <li>Render Emoji</li>
-                </ul>
-            </div>
-        </div>
-        <div class="changelog__item">
-            <div class="changelog__meta">
-                <h4 class="changelog__title">v0.6</h4>
-                <small class="changelog__date">7/30/2017</small>
-            </div>
-            <div class="changelog__detail">
-                <ul>
-                    <li>Adding Unicode support</li>
-                    <li>Basic text highlighting</li>
-                    <li>Fresh Design</li>
-                </ul>
-            </div>
-        </div>
-        <div class="changelog__item">
-            <div class="changelog__meta">
-                <h4 class="changelog__title">v0.5</h4>
-                <small class="changelog__date">5/10/2017</small>
-            </div>
-            <div class="changelog__detail">
-                <ul>
-                    <li>Save default md file in new folders</li>
-                    <li>Ability to quick search on existing notes</li>
+                    <li>Added automated scraper for updating details regularly</li>
+                    <li>Added token authentication for API</li>
                 </ul>
             </div>
         </div>
         <div class="changelog__callout">
-            <a href="#" class="button--secondary">Checkout Full Log</a>
+            <a href="{% url 'changelogs' %}" class="button--secondary">Checkout Full Log</a>
         </div>
     </div>
 </div>
 
+<!-- Login modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -245,7 +221,7 @@
                     <h4>Login</h4>
                 </div>
                 <div class="d-flex flex-column text-center">
-                    
+
                     {% if messages %}
                     <script>
                         document.addEventListener('DOMContentLoaded', _ => {
@@ -289,7 +265,8 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <div class="signup-section">Not a member yet? <a href="#" class="text-info" id='sign-up-toggle'> Sign Up</a>.</div>
+                <div class="signup-section">Not a member yet? <a href="#" class="text-info" id='sign-up-toggle'> Sign
+                        Up</a>.</div>
             </div>
         </div>
     </div>

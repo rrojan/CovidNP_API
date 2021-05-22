@@ -10,6 +10,7 @@ urlpatterns = [
     # docs
     path("", pages.index_view, name="index"),
     path("docs/", pages.docs_view, name="docs"),
+    path("changelogs/", pages.changelogs_view, name="changelogs"),
     # auth
     path("login/", pages.login, name="login"),
     path(

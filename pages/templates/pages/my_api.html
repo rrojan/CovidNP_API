@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block css %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'pages/scribbler-global.css' %}">
 <link rel="stylesheet" href="{% static 'pages/scribbler-doc.css' %}">
@@ -17,15 +17,13 @@
   <ul class="menu">
     <div class="menu__item toggle"><span></span></div>
     <li class="menu__item"><a href="{% url 'index' %}" class="link link--dark"><i class="fa fa-home"></i> Home</a></li>
+    <li class="menu__item"><a href="{% url 'logout' %}" class="link link--dark"><i class="fas fa-user-lock"></i> Logout</a></li>
   </ul>
 </nav>
 <div class="wrapper">
   <aside class="doc__nav">
     <ul>
       <li class="js-btn selected">My Details</li>
-      <!-- <li class="js-btn">Configuration</li>
-      <li class="js-btn">Keybindings</li>
-      <li class="js-btn">Issues</li> -->
     </ul>
   </aside>
   <article class="doc__content">
@@ -38,7 +36,7 @@
                 username: {{ user.username }}
                 email: {{ user.email }}
                 password: *****
-                API key: xxx
+                API key: {{ user_token }}
 
                 For security reasons, do not share your API key with anyone else.
               </code>

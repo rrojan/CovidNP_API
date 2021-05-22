@@ -2,6 +2,8 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User
 from django.contrib import messages
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.decorators import login_required
 from .forms import UserCreationForm
 
 
@@ -45,6 +47,12 @@ def signup_view(request):
     messages.warning(request, "There was an error signing you up. Please try again.")
     return redirect("index")
 
-
+@login_required(redirect_field_name='my_api')
 def my_api_view(request):
-    return render(request, "pages/my_api.html")
+    context = {
+        'user_token': Token.objects.get(user=request.user)
+    }
+    return render(request, "pages/my_api.html", context)
+
+def changelogs_view(request):
+    return render(request, 'pages/changelogs.html')

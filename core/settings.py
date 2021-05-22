@@ -149,5 +149,6 @@ REST_FRAMEWORK = {
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
+LOGIN_REDIRECT_URL = 'my_api'
 
 SITE_ID = 1

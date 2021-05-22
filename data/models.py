@@ -1,7 +1,4 @@
-from datetime import date
-import time
 from django.db import models
-from django.utils import formats
 
 
 CATEGORIES = ((1, "Daily"), (2, "Total"), (3, "By District"))
@@ -32,11 +29,7 @@ class Total(models.Model):
 
 
 def display_str(self):
-    return (
-        f"{self.get_category_display()} ["
-        + str(self.date_updated.date())
-        + "]"
-    )
+    return f"{self.get_category_display()} [" + str(self.date_updated.date()) + "]"
 
 
 Daily.__str__ = Total.__str__ = display_str
@@ -54,8 +47,5 @@ class Area(models.Model):
     category = models.IntegerField(choices=CATEGORIES, default=3)
 
     def __str__(self):
-        return (
-            f"{self.district} ["
-            + str(self.date_updated.date())
-            + "]"
-        )
+        return f"{self.district} [" + str(self.date_updated.date()) + "]"
+
