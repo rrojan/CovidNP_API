@@ -23,6 +23,15 @@
     {% endblock %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+        const newCases = "{{ new_cases }}";
+        const maleEst = "{{ male_est }}";
+        const femaleEst = "{{ female_est }}";
+        const recovered = "{{ recovered }}";
+        const deaths = "{{ deaths }}";
+        const dateUpdated = "{{ date_updated }}"
+
+    </script>
     <script src="{% static 'pages/script.js' %}"></script>
 
 </body>

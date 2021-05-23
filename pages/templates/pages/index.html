@@ -7,7 +7,6 @@
 
 {% block css %}
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css'>
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/railscasts.min.css">
@@ -249,20 +248,21 @@
                     <div class="text-center text-muted delimiter">or use a social network</div>
                     <div class="d-flex justify-content-center social-buttons">
                         <button type="button" class="btn btn-secondary btn-round" data-toggle="tooltip"
-                            data-placement="top" title="Twitter">
+                            data-placement="top" title="Twitter" disabled>
                             <i class="fab fa-twitter"></i>
                         </button>
                         <button type="button" class="btn btn-secondary btn-round" data-toggle="tooltip"
-                            data-placement="top" title="Facebook">
+                            data-placement="top" title="Facebook" disabled>
                             <i class="fab fa-facebook"></i>
                         </button>
                         <button type="button" class="btn btn-secondary btn-round" data-toggle="tooltip"
-                            data-placement="top" title="Linkedin">
+                            data-placement="top" title="Linkedin" disabled>
                             <i class="fab fa-linkedin"></i>
                         </button>
                         </di>
                     </div>
                 </div>
+                <small><a href="{% url 'reset_password' %}">Forgot password?</a></small>
             </div>
             <div class="modal-footer d-flex justify-content-center">
                 <div class="signup-section">Not a member yet? <a href="#" class="text-info" id='sign-up-toggle'> Sign

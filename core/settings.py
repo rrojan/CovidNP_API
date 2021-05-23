@@ -163,3 +163,5 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = envvar.email
 EMAIL_HOST_PASSWORD = envvar.password
+
+DEFAULT_FROM_EMAIL = envvar.email

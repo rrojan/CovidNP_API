@@ -2,7 +2,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from .models import Daily, Total, Area
 from scraper import scrape
-from datetime import date
+from datetime import date, timedelta
 
 
 def scrape_view(request):
@@ -14,11 +14,12 @@ def scrape_view(request):
 
     The url route for this view will be triggered periodically using cronjobs by running a curl request containing
     a check string.
-    e.g.: `curl https://covidnp.xyz/scrape/?passphrase=xxsecretpassphrasexx`
+    e.g. curl -X GET http://127.0.0.1:8000/scrape/?passphrase=test
 
     It can also be done manually by an authorized user.
     """
 
+    print(request.GET.get("passphrase"))
     if request.GET.get("passphrase") != "test":
         return redirect("index")
 
@@ -49,19 +50,23 @@ def scrape_view(request):
         total_male_count += data["Male"]
         total_female_count += data["Female"]
 
-    old_objects = Daily.objects.filter(date_updated__startswith=date.today())
-    for object in old_objects:
-        object.delete()
-
-    Daily.objects.create(
-        new_cases=today_data["New Cases"],
-        recovered=today_data["Recovered"],
-        deaths=today_data["Deaths"],
-    )
-
     old_objects = Total.objects.filter(date_updated__startswith=date.today())
     for object in old_objects:
         object.delete()
+    
+    try:
+        yesterday_date = date.today() - timedelta(days=1)
+        print(yesterday_date)
+        yst_total = Total.objects.get(
+            date_updated__startswith=yesterday_date
+        )
+        yst_total_male_count = yst_total.total_male_estimated
+        yst_total_female_count = yst_total.total_female_estimated
+        daily_male_count = total_male_count - yst_total_male_count
+        daily_female_count = total_female_count - yst_total_female_count
+    except Exception:
+        daily_male_count = None
+        daily_female_count = None
 
     Total.objects.create(
         total_cases=total_data["Total Cases"],
@@ -70,6 +75,20 @@ def scrape_view(request):
         deaths=total_data["Deaths"],
         total_male_estimated=total_male_count,
         total_female_estimated=total_female_count,
+    )
+
+    old_objects = Daily.objects.filter(date_updated__startswith=date.today())
+    for object in old_objects:
+        object.delete()
+
+    
+
+    Daily.objects.create(
+        new_cases=today_data["New Cases"],
+        recovered=today_data["Recovered"],
+        deaths=today_data["Deaths"],
+        male_cases_estimated=daily_male_count,
+        female_cases_estimated=daily_female_count,
     )
 
     return HttpResponse("Successfully scraped data from target")
