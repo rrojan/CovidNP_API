@@ -1,5 +1,5 @@
 from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Daily, Total, Area
 from scraper import scrape
 from datetime import date
@@ -10,8 +10,17 @@ def scrape_view(request):
     Scrape but store only one database entry per day.
 
     If multiple scrapings are done in one day, remove all previous db entries for the day
-    before creating the new object
+    before creating the new object.
+
+    The url route for this view will be triggered periodically using cronjobs by running a curl request containing
+    a check string.
+    e.g.: `curl https://covidnp.xyz/scrape/?passphrase=xxsecretpassphrasexx`
+
+    It can also be done manually by an authorized user.
     """
+
+    if request.GET.get("passphrase") != "test":
+        return redirect("index")
 
     url = "https://covid19.mohp.gov.np/"
 
@@ -63,4 +72,4 @@ def scrape_view(request):
         total_female_estimated=total_female_count,
     )
 
-    return HttpResponse("Successfully scraped that shit")
+    return HttpResponse("Successfully scraped data from target")

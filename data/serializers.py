@@ -17,17 +17,18 @@ class DailySerializer(DailySerializer):
             "recovered",
             "deaths",
             "date_updated",
+            "source",
         )
 
 
 class DailyMaleSerializer(DailySerializer):
     class Meta(DailySerializer.Meta):
-        fields = ("male_cases_estimated", "date_updated")
+        fields = ("male_cases_estimated", "date_updated", "source")
 
 
 class DailyFemaleSerializer(DailySerializer):
     class Meta(DailySerializer.Meta):
-        fields = ("female_cases_estimated", "date_updated")
+        fields = ("female_cases_estimated", "date_updated", "source")
 
 
 class TotalBaseSerializer(serializers.ModelSerializer):
@@ -45,17 +46,18 @@ class TotalSerializer(TotalBaseSerializer):
             "recovered",
             "deaths",
             "date_updated",
+            "source",
         )
 
 
 class TotalMaleSerializer(TotalBaseSerializer):
     class Meta(TotalBaseSerializer.Meta):
-        fields = ("total_male_estimated", "date_updated")
+        fields = ("total_male_estimated", "date_updated", "source")
 
 
 class TotalFemaleSerializer(TotalBaseSerializer):
     class Meta(TotalBaseSerializer.Meta):
-        fields = ("total_female_estimated", "date_updated")
+        fields = ("total_female_estimated", "date_updated", "source")
 
 
 class AreaBaseSerializer(serializers.ModelSerializer):
@@ -74,14 +76,15 @@ class AreaSerializer(AreaBaseSerializer):
             "daily_male_estimated",
             "daily_female_estimated",
             "date_updated",
+            "source",
         )
 
 
 class AreaMaleSerializer(AreaBaseSerializer):
     class Meta(AreaBaseSerializer.Meta):
-        fields = ("total_male", "daily_male_estimated", "date_updated")
+        fields = ("total_male", "daily_male_estimated", "date_updated", "source")
 
 
 class AreaFemaleSerializer(AreaBaseSerializer):
     class Meta(AreaBaseSerializer.Meta):
-        fields = ("total_female", "daily_female_estimated", "date_updated")
+        fields = ("total_female", "daily_female_estimated", "date_updated", "source")

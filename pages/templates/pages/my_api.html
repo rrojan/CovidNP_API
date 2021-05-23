@@ -1,6 +1,10 @@
 {% extends 'pages/base.html' %}
 {% load static %}
 
+{% block title %}
+MyAPI: CovidNP
+{% endblock %}
+
 {% block css %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
@@ -17,7 +21,8 @@
   <ul class="menu">
     <div class="menu__item toggle"><span></span></div>
     <li class="menu__item"><a href="{% url 'index' %}" class="link link--dark"><i class="fa fa-home"></i> Home</a></li>
-    <li class="menu__item"><a href="{% url 'logout' %}" class="link link--dark"><i class="fas fa-user-lock"></i> Logout</a></li>
+    <li class="menu__item"><a href="{% url 'logout' %}" class="link link--dark"><i class="fas fa-user-lock"></i>
+        Logout</a></li>
   </ul>
 </nav>
 <div class="wrapper">
@@ -28,6 +33,20 @@
   </aside>
   <article class="doc__content">
     <section class="js-section">
+
+      {% if messages %}
+      {% for message in messages %}
+      <div class="code__block code__block--notabs" style="margin-top: 10px; margin-bottom: 10px;">
+        <pre class="code code--block" style="background-color: rgb(172, 255, 176);">
+              <code>
+                Success! You can now use your account to query the API.
+              </code>
+            </pre>
+      </div>
+      {% endfor %}
+      {% endif %}
+
+      {% if user.profile.is_verified %}
       <h3 class="section__title">User details for {{ user.username }}</h3>
       <p>Please use these details while making API calls through CovidNP.</p>
       <div class="code__block code__block--notabs">
@@ -42,8 +61,20 @@
               </code>
             </pre>
       </div>
+      {% else %}
+      <form action="" method="POST">
+        {% csrf_token %}
+        <h3 class="section__title">Verify your email address</h3>
+        <p>Enter the 4-digit code we've mailed you at {{ user.email }}</p>
+        <br><br>
+        <label for="vcode">Enter your verification code</label>
+        <input id="vcode" type="text" name="vcode" placeholder="0000">
+        <button type="submit" class="btn btn-outline-success">Verify</button>
+      </form>
+      {% endif %}
     </section>
   </article>
+
 </div>
 
 {% endblock %}

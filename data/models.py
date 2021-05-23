@@ -2,6 +2,7 @@ from django.db import models
 
 
 CATEGORIES = ((1, "Daily"), (2, "Total"), (3, "By District"))
+MOHP_URL = "https://covid19.mohp.gov.np/"
 
 
 class Daily(models.Model):
@@ -12,6 +13,7 @@ class Daily(models.Model):
     deaths = models.IntegerField()
     date_updated = models.DateTimeField(auto_now_add=True)
     category = models.IntegerField(choices=CATEGORIES, default=1)
+    source = models.CharField(default=MOHP_URL, max_length=len(MOHP_URL))
 
     class Meta:
         verbose_name_plural = "Dailies"
@@ -26,6 +28,7 @@ class Total(models.Model):
     deaths = models.IntegerField()
     date_updated = models.DateTimeField(auto_now_add=True)
     category = models.IntegerField(choices=CATEGORIES, default=2)
+    source = models.CharField(default=MOHP_URL, max_length=len(MOHP_URL))
 
 
 def display_str(self):
@@ -45,7 +48,7 @@ class Area(models.Model):
     daily_female_estimated = models.IntegerField(null=True)
     date_updated = models.DateTimeField(auto_now_add=True, null=True)
     category = models.IntegerField(choices=CATEGORIES, default=3)
+    source = models.CharField(default=MOHP_URL, max_length=len(MOHP_URL))
 
     def __str__(self):
         return f"{self.district} [" + str(self.date_updated.date()) + "]"
-
