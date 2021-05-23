@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/railscasts.min.css">
-<link rel="stylesheet" href="{% static 'pages/scribbler-global.css' %}">
-<link rel="stylesheet" href="{% static 'pages/scribbler-landing.css' %}">
+<link rel="stylesheet" href="{% static 'pages/style-global.css' %}">
+<link rel="stylesheet" href="{% static 'pages/style-landing.css' %}">
 <link rel="author" href="humans.txt">
 <style>
     :root {
@@ -105,7 +105,7 @@
         <div class="menu__item toggle"><span></span></div>
         <li class="menu__item"><a href="{% url 'docs' %}" class="link link--dark"><i class="fa fa-book"></i>
                 Documentation</a></li>
-        <li class="menu__item"><a href="" class="link link--dark"><i class="fab fa-github"></i> Github</a></li>
+        <li class="menu__item"><a href="https://github.com/rrojan20/CovidNP_API" class="link link--dark"><i class="fab fa-github"></i> Github</a></li>
         {% if user.is_authenticated %}
         <li class="menu__item"><a href="{% url 'my_api' %}" class="link link--dark"><i class="fas fa-code"></i>
                 MyAPI</a></li>
@@ -173,11 +173,11 @@
         <span style="margin: 10px 30px;">OR</span>
         <ul class="keybinding__detail">
             <h2 class="keybinding__title" style="margin: 0px 20px;">Read the docs</h3>
-                <li>-- Introduction</li>
-                <li>-- Getting Started</li>
-                <li>-- API Routes, Endpoints and Filters</li>
-                <li>-- Integrating into your own website/apps</li>
-                <li>-- Throttling</li>
+                <li>- <a href="/docs#introduction">Introduction</a></li>
+                <li>- <a href="/docs#getting-started">Getting Started</a></li>
+                <li>- <a href="/docs#api">API Routes, Endpoints and Filters</a></li>
+                <li>- <a href="/docs#apps">Integrating into your own website/apps</a></li>
+                <li>- <a href="/docs#throttling">Throttling</a></li>
         </ul>
     </div>
     <div class="callout">

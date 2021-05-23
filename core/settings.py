@@ -145,7 +145,7 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.AnonRateThrottle",
         "rest_framework.throttling.UserRateThrottle",
     ],
-    "DEFAULT_THROTTLE_RATES": {"anon": "0/day", "user": "120/day"},
+    "DEFAULT_THROTTLE_RATES": {"anon": "0/day", "user": "150/day"},
 }
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"

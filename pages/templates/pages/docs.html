@@ -1,11 +1,15 @@
 {% extends 'pages/base.html' %}
 {% load static %}
 
+{% block title %}
+Documentation: CovidNP
+{% endblock %}
+
 {% block css %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'pages/scribbler-global.css' %}">
-<link rel="stylesheet" href="{% static 'pages/scribbler-doc.css' %}">
+<link rel="stylesheet" href="{% static 'pages/style-global.css' %}">
+<link rel="stylesheet" href="{% static 'pages/style-doc.css' %}">
 <link rel="author" href="humans.txt">
 {% endblock %}
 
@@ -13,101 +17,222 @@
 {% block content %}
 <div class="doc__bg"></div>
 <nav class="header">
-  <h1 class="logo">Scribbler <span class="logo__thin">Doc</span></h1>
+  <h1 class="logo">CovidNP <span class="logo__thin">Documentation</span></h1>
   <ul class="menu">
     <div class="menu__item toggle"><span></span></div>
-    <li class="menu__item"><a href="" class="link link--dark"><i class="fa fa-github"></i> Github</a></li>
-    <li class="menu__item"><a href="index.html" class="link link--dark"><i class="fa fa-home"></i> Home</a></li>
+    <li class="menu__item"><a href="https://github.com/rrojan20/CovidNP_API" class="link link--dark"><i class="fab fa-github"></i> Github</a></li>
+    <li class="menu__item"><a href="{% url 'index' %}" class="link link--dark"><i class="fa fa-home"></i> Home</a></li>
+    {% if user.is_authenticated %}
+    <li class="menu__item"><a href="{% url 'my_api' %}" class="link link--dark"><i class="fas fa-code"></i>
+        MyAPI</a></li>
+    {% else %}
+    <li class="menu__item"><a href="" class="link link--dark" data-toggle="modal" data-target="#loginModal"
+        id='login'><i class="fas fa-rocket"></i> Get Started</a></li>
+    {% endif %}
   </ul>
 </nav>
 <div class="wrapper">
   <aside class="doc__nav">
     <ul>
-      <li class="js-btn selected">Get Started</li>
-      <li class="js-btn">Configuration</li>
-      <li class="js-btn">Keybindings</li>
-      <li class="js-btn">Issues</li>
+      <li class="js-btn selected">Introduction</li>
+      <li class="js-btn">Getting Started</li>
+      <li class="js-btn">API Routes, Endpoints <br>and Filters</li>
+      <li class="js-btn">Throttling</li>
     </ul>
   </aside>
-  <article class="doc__content">
+  <article class="doc__content" id="introduction">
     <section class="js-section">
-      <h3 class="section__title">Get Started</h3>
-      <p>Learn how to configure settings for Scribbler, such as your syntax highlighting preference and the default
-        saving folder location.</p>
-      <h3 class="section__title">Installation</h3>
+      <h3 class="section__title">Introduction</h3>
+      <p><a href="{% url 'index' %}">CovidNP</a> is an API service that provides accurate, updated and detailed data on
+        the
+        COVID-19 outbreak in Nepal.</p>
+
+      <p>When called, the API returns data (daily or total) in a neat JSON format continaing information about
+        the number of COVID cases, recovered patient counts, number of deaths, etc.
+        This data can be filtered according to date, province, district, gender (male or female), etc, as well.</p>
+
+      <p>The data can then be used for statistical analysis, training ML models, data projects, or any number of such
+        tasks.
+        It can also be used by developers or site-admins wishing to integrate a COVID statistics panel into their
+        web, mobile or desktop apps as well.</p>
+      <p>All data is pulled from the <a href="https://covid19.mohp.gov.np/">COVID-19 MOHP</a> website.</p>
+    </section>
+    <br>
+    <section class="js-section" id="getting-started">
+      <h3 class="section__title">Getting Started</h3>
+      <p>Firstly, you will need an account to query the CovidNP API. Sign up using the "Sign Up" button on the CovidNP
+        homepage. You will be emailed a 4-digit verification code.
+        Copy-paste it into your MyAPI page linked at the top-right corner</p>
+
+      <h4>Testing the waters:</h4>
+      <p>If you want a basic overview of what the API can do, run the following url in your web browser:</p>
       <div class="code__block code__block--notabs">
         <pre class="code code--block">
               <code>
-                $ scribbler  ——config
-                  {
-                    “encryption”: true, 
-                    “highlighting“: true,
-                    “prettyTable”: false,
-                    “font”: [“Helvetica”, “sans-serif”],
-                    “folder”: “~/Desktop“
-                  }
+                https://covidnp.xyz/api/daily/
               </code>
-            </pre>
+        </pre>
       </div>
+      <p>Make sure that you are logged in and verified.</p>
+
+      <h4 id="apps">Using API calls from your own apps:</h4>
+      <p>If you want to integrate the API into your own projects you will to make API calls to the server's API route.
+        To do this, you will need your personal unique API key.</p>
+      <p>This will be available to you at your MyAPI page. </p>
+      <p>For client apps to authenticate, the token key should be included in the <code> Authorization </code> HTTP
+        header.</p>
+      <p>Example:</p>
+      <pre class="code code--block">
+        <code>
+          Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b
+        </code>
+      </pre>
+      <p>Add this header before placing requests through whichever language/framework you are using.</p>
     </section>
-    <section class="js-section">
-      <h3 class="section__title">Configuration</h3>
-      <p>Learn how to configure settings for Scribbler, such as your syntax highlighting preference and the default
-        saving folder location.</p>
+    <br>
+
+    <section class="js-section" id="api">
+      <h3 class="section__title">API Routes, Endpoints and Filters:</h3>
+      <p>These are the urls that you will be querying to get specific data from the CovidNP API server.</p>
+      <p>The following are the API routes available through <code>covidnp.xyz/</code></p>
       <table id="customers">
         <tr>
-          <th>Options</th>
-          <th>Value</th>
-          <th>Default</th>
+          <th>Route</th>
+          <th>Filters</th>
+          <th>Comments</th>
         </tr>
         <tr>
-          <td>encryption</td>
-          <td>encrypt all notes before saving. If turned on, it requires password to open the file.</td>
-          <td>false</td>
+          <td>daily/</td>
+          <td>
+            -- [none]
+            <br><br>
+            -- date (In format YYYY-MM-DD)
+            <br><br>
+            -- gender (choices: male/female)
+          </td>
+          <td>
+            -- Using no filters returns you a JSON response containing all available "daily" data on the server.
+            <br><br>
+            -- Date: Query daily data for a specific date. Eg: ?date=2021-05-20
+            <br><br>
+            -- Gender: Query the number of cases for male or female patients separately.
+          </td>
         </tr>
         <tr>
-          <td>highlighting</td>
-          <td>Show syntax highlight on markdown text.</td>
-          <td>true</td>
+          <td>total/</td>
+          <td> ,, </td>
+          <td> ,, </td>
         </tr>
         <tr>
-          <td>prettyTable</td>
-          <td>Render table with Scribbler’s pretty table style.</td>
-          <td>true</td>
+          <td>area/</td>
+          <td>
+            -- [none]
+            <br><br>
+            -- date (In format YYYY-MM-DD)
+            <br><br>
+            -- gender (choices: male/female)
+            <br><br>
+            -- province (choices: all 7 provinces of Nepal)
+            <br><br>
+            -- district (choices: all 77 districts of Nepal)
+          </td>
+          <td>
+            -- Using no filters returns you all the data available on the server for each district.
+            <br><br>
+            -- Date: Query daily data for all 77 district on specific date. Eg: ?date=2021-05-20
+            <br><br>
+            -- Gender: Query data for all district for male and female cases
+            <br><br>
+            -- Province: Query data for specific districts in any of Nepal's seven provinces
+            <br><br>
+            -- District: Query data for a specific district
+          </td>
         </tr>
       </table>
-      <p>Malis percipitur an pro. Pro aperiam persequeris at, at sonet sensibus mei, id mea postulant definiebas
-        concludaturque. Id qui malis abhorreant, mazim melius quo et. At eam altera dolorum, case dicant lobortis ius
-        te, ad vel affert oportere reprehendunt. Quo no verterem deseruisse, mea brute postea te, ne per tacimates
-        suavitate vituperatoribus.</p>
+      <p>You can query the API using a calls to url: <code> https://covidnp.xyz/[route]/?[filter]=[value] </code></p>
+      <p>For multiple filters, use the format:
+        <code> http://covidnp.xyz/api/[route]/?[filter]=[value]&[filter2]=[value2]... </code>
+      </p>
+      <br>
+      <p>Examples:</p>
+      <ul>
+        <li>
+          Get daily data for date "2021-05-20":
+          <pre class="code code--block">
+            <code>
+              https://covidnp.xyz/api/daily/?date=2021-05-20
+            </code>
+          </pre>
+        </li>
+        <li>
+          Get daily total data to-date for male patients on date 2021-05-20:
+          <pre class="code code--block">
+            <code>
+              https://covidnp.xyz/api/total/?gender=male&date=2021-05-20
+            </code>
+          </pre>
+        </li>
+        <li>
+          Get data for province Bagmati on date 2021-05-20
+          <pre class="code code--block">
+            <code>
+              https://covidnp.xyz/api/area/?province=bagmati&date=2021-05-20
+            </code>
+          </pre>
+        </li>
+        <li>
+          Get data for Kathmandu district on date 2021-05-20 for female patients
+          <pre class="code code--block">
+            <code>
+              http://covidnp.xyz/api/area/?district=kathmandu&date=2021-05-20&gender=female
+            </code>
+          </pre>
+        </li>
+      </ul>
+      <p>
+        List of province names:<br>
+      <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>bagmati</li>
+        <li>gandaki</li>
+        <li>lumbini</li>
+        <li>karnali</li>
+        <li>sudurpaschim</li>
+      </ul>
+      </p>
+      <br>
+      For a list of district names used, query all district names for a specific date.
       <hr />
     </section>
-    <section class="js-section">
-      <h3 class="section__title">Keybindings</h3>
-      <p>Lorem ipsum dolor sit amet, scripta tibique indoctum sit ei, mel inani aeterno ad. Facer oratio ex per. At
-        eam movet verear, in sea brute patrioque disputando, usu nonumes torquatos an. Ex his quaerendum intellegebat,
-        ut vel homero accusam. Eum at debet tibique, in vocibus temporibus adversarium sed. Porro verear eu vix, ne
-        usu tation vituperata.</p>
-      <p>Malis percipitur an pro. Pro aperiam persequeris at, at sonet sensibus mei, id mea postulant definiebas
-        concludaturque. Id qui malis abhorreant, mazim melius quo et. At eam altera dolorum, case dicant lobortis ius
-        te, ad vel affert oportere reprehendunt. Quo no verterem deseruisse, mea brute postea te, ne per tacimates
-        suavitate vituperatoribus.</p>
-      <p>Malis percipitur an pro. Pro aperiam persequeris at, at sonet sensibus mei, id mea postulant definiebas
-        concludaturque. Id qui malis abhorreant, mazim melius quo et. At eam altera dolorum, case dicant lobortis ius
-        te, ad vel affert oportere reprehendunt. Quo no verterem deseruisse, mea brute postea te, ne per tacimates
-        suavitate vituperatoribus.</p>
+    <section class="js-section" id="throttling">
+      <h3 class="section__title">Throttling</h3>
+      <p>By default, all users are throttled to a limit of 150 API calls per day. Please contact us at
+        <code> admin@covidnp.xyz </code>
+        if you need a custom plan.
+      </p>
       <hr />
     </section>
-    <section class="js-section">
-      <h3 class="section__title">Issues</h3>
-      <p>Lorem ipsum dolor sit amet, scripta tibique indoctum sit ei, mel inani aeterno ad. Facer oratio ex per. At
-        eam movet verear, in sea brute patrioque disputando, usu nonumes torquatos an. Ex his quaerendum intellegebat,
-        ut vel homero accusam. Eum at debet tibique, in vocibus temporibus adversarium sed. Porro verear eu vix, ne
-        usu tation vituperata.</p>
-      <p>Malis percipitur an pro. Pro aperiam persequeris at, at sonet sensibus mei, id mea postulant definiebas
-        concludaturque. Id qui malis abhorreant, mazim melius quo et. At eam altera dolorum, case dicant lobortis ius
-        te, ad vel affert oportere reprehendunt. Quo no verterem deseruisse, mea brute postea te, ne per tacimates
-        suavitate vituperatoribus.</p>
+    <section class="js-section" id="contributors">
+      <h3 class="section__title">Contributors</h3>
+      <p>An open source project supported by contributors. </p>
+      <ul>
+        <li>
+          Rojan Rajbhandari: Find me on Github <a href="https://github.com/rrojan20/">@rrojan20</a>, or contact me at
+          <code>rrojan20@gmail.com</code>
+        </li>
+        <li></li>
+      </ul>
+      <br>
+      <p>Please reach out to <code> admin@covidnp.xyz </code> if you have problems setting up the API or find bugs in
+        the service.</p>
+      <br>
+      <p>Contribute to our repo on Github <a href="https://github.com/rrojan20/CovidNP_API">here</a>.</p>
+      <br>
+      <p>Major thanks goes out to the following testers for their valuable advice and contributions.</p>
+      <ul>
+        <li></li>
+      </ul>
     </section>
   </article>
 </div>
