@@ -4,7 +4,7 @@
 
 COVID NP: The automated COVID statistics scraper for Nepali data. 
 
-Access data for your web/mobile applications through an API, or query the data with powerful filters like date, province, district, gender, etc for your data projects!
+Access data for your web/mobile applications through an API, or query the data with powerful filters like date, province, district, gender, etc for your ML projects!
 
 
 ### Showcase: [https://covidnp.xyz](https://covidnp.xyz)
