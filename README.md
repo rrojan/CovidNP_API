@@ -1,5 +1,7 @@
 # CovidNP_API
 
+### Full docs [here](https://covidnp.xyz/docs/)
+
 ### Work in progress
 
 COVID NP: The automated COVID statistics scraper for Nepali data. 
@@ -27,4 +29,3 @@ Note: (WIP) There are some issues with selenium in the production server atm, ho
 - Add the `geckodriver` driver for Firefox (for your OS) into `venv/bin` folder or add the folder to your PATH
 - Activate the virtual environment and run the testing server (`python3 manage.py runserver`)
 
-### Full docs [here](https://covidnp.xyz/docs/)
