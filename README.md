@@ -1,25 +1,21 @@
 # CovidNP_API
 
-Work in progress.
+### Work in progress
 
-## Akhir kasari garincha ta install?
-- Clone repo, create virtual env, run `pip3 install -r requirements.txt`
-- Copy-paste `geckodriver` driver for Firefox (for your OS) into `venv/bin` folder (otherwise Selenium driver won't run on venv)
+COVID NP: The automated COVID statistics scraper for Nepali data. 
 
-## API Routes and endpoints
+Access data for your web/mobile applications through an API or query the data with powerful filters like date, province, district, gender, etc for your data projects!
 
-- localhost:8000/daily
-- localhost:8000/total
-- localhost:8000/area
 
-Filters (add after url)
+### Showcase: [https://covidnp.xyz](https://covidnp.xyz)
 
-?province
-?date
-?gender
-?district
+Note: There are some issues with selenium in the production server atm, however both the scraper and API work perfectly fine locally.
 
-Provinces : 1, 2, bagmati, gandaki, ...
-date: in formal `2021-05-20`
-gender: male female
-district: 77 districts 
+
+## Installation:
+- Clone repo
+- Create virtual environment and install dependencies (`pip3 install -r requirements.txt`)
+- Add the `geckodriver` driver for Firefox (for your OS) into `venv/bin` folder or add the folder to your PATH
+- Activate the virtual environment and run the testing server (`python3 manage.py runserver`)
+
+### Full docs [here](https://covidnp.xyz/docs/)
