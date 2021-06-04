@@ -4,13 +4,22 @@
 
 COVID NP: The automated COVID statistics scraper for Nepali data. 
 
-Access data for your web/mobile applications through an API or query the data with powerful filters like date, province, district, gender, etc for your data projects!
+Access data for your web/mobile applications through an API, or query the data with powerful filters like date, province, district, gender, etc for your data projects!
 
 
 ### Showcase: [https://covidnp.xyz](https://covidnp.xyz)
 
-Note: There are some issues with selenium in the production server atm, however both the scraper and API work perfectly fine locally.
+Note: (WIP) There are some issues with selenium in the production server atm, however both the scraper and API work perfectly fine locally.
 
+
+## Running the project locally
+
+### Requirements:
+- Django 3.2
+- DRF 3.12
+- bs4
+- lxml
+- Selenium
 
 ## Installation:
 - Clone repo
