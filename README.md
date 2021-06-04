@@ -21,7 +21,7 @@ Note: (WIP) There are some issues with selenium in the production server atm, ho
 - lxml
 - Selenium
 
-## Installation:
+### Installation:
 - Clone repo
 - Create virtual environment and install dependencies (`pip3 install -r requirements.txt`)
 - Add the `geckodriver` driver for Firefox (for your OS) into `venv/bin` folder or add the folder to your PATH
