@@ -2,16 +2,12 @@
 
 ### Full docs [here](https://covidnp.xyz/docs/)
 
-### Work in progress
+COVID NP: The automated COVID statistics scraper for Nepali data (source: MoHP)
 
-COVID NP: The automated COVID statistics scraper for Nepali data. 
-
-Access data for your web/mobile applications through an API, or query the data with powerful filters like date, province, district, gender, etc for your ML projects!
+Access COVID data for your web/mobile applications through an API, or query the data with filters like date, province, district, gender, etc for your ML projects!
 
 
 ### Showcase: [https://covidnp.xyz](https://covidnp.xyz)
-
-Note: (WIP) There are some issues with selenium in the production server atm, however both the scraper and API work perfectly fine locally.
 
 
 ## Running the project locally
